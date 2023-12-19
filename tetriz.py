@@ -6,6 +6,7 @@ class Movement(Enum):
     LEFT = 2
     RIGTH = 3
     ROTATE = 4 
+    UP = 5
  
 def tetriz():
     screen = [["⬛","⬜","⬜","⬜","⬜","⬜","⬜","⬜","⬜","⬜"],
@@ -29,6 +30,8 @@ def tetriz():
         elif event.event_type == keyboard.KEY_DOWN:
             if event.name == "down":
                 (screen,rotation)=move_piece(screen,Movement.DOWN,rotation)
+            elif event.name == "up":
+                (screen,rotation)=move_piece(screen,Movement.UP,rotation)
             elif event.name == "right":
                 (screen,rotation)=move_piece(screen,Movement.RIGTH,rotation)
             elif event.name == "left":
@@ -60,6 +63,9 @@ def move_piece(screen:list,movement:Movement,rotation:int) -> (list,int):
                     case Movement.DOWN: 
                         new_row_index = row_index + 1
                         new_column_index = column_index 
+                    case Movement.UP: 
+                        new_row_index = row_index - 1
+                        new_column_index = column_index 
                     case Movement.RIGTH:
                         new_row_index = row_index
                         new_column_index = column_index + 1
@@ -71,7 +77,7 @@ def move_piece(screen:list,movement:Movement,rotation:int) -> (list,int):
                         new_column_index = column_index + rotations[new_rotation][rotation_item][1]
                         rotation_item+=1
                         
-                if new_row_index > 9 or new_column_index > 9 or new_column_index < 0:
+                if new_row_index > 9 or new_column_index > 9 or new_column_index < 0 or new_row_index < 0:
                     print("\nNo se puede realizar el movimiento")
                     return (screen,rotation)
                 else:  
